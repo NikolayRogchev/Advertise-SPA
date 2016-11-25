@@ -22,6 +22,7 @@
     <a href="#" id="linkListAds" class="menu-item">List Advertisements</a>
     <a href="#" id="linkCreateAd" class="menu-item">Create Advertisement</a>
     <a href="#" id="linkLogout" class="menu-item">Logout</a>
+    <a href="#" id="admin" class="menu-item" >admin</a>
     <span id="loggedInUser" class="menu-item"></span>
     <div></div>
 </header>
@@ -36,6 +37,32 @@
     <section id="viewHome" class="viewHome">
         <h1 class="title">Welcome</h1>
         <p class="body-text">Welcome to our advertisement site.</p>
+        <p class="body-text">Availible users:</p>
+        <p class="body-text"><br>
+        <div class="body-text">
+            <ul>
+                <ul>
+                    <li>Username: Nikolay</li>
+                    <li>Password: 123</li>
+                </ul>
+                <br>
+                <ul>
+                    <li>Username: Pesho</li>
+                    <li>Password: 123</li>
+                </ul>
+                <br>
+                <ul>
+                    <li>Username: aa</li>
+                    <li>Password: aa</li>
+                </ul>
+                <br>
+                <ul>
+                    <b>ADMIN ACCOUNT</b>
+                    <li>Username: admin</li>
+                    <li>Password: admin</li>
+                </ul>
+            </ul>
+        </div>
     </section>
 
     <section id="viewLogin" class="viewLogin">
@@ -111,6 +138,13 @@
             <div><input type="button" id="buttonEditAd" value="Edit" /></div>
         </form>
     </section>
+
+    <section id="viewDetailsAd" class="viewDetailsAd">
+        <h3 class="title"><i></i></h3>
+        <div id="container-details"></div>
+    </section>
+
+    <!--TODO: Implement 'Admin' page-->
 
 </main>
 <footer>Prodavachnik - Simple SPA Application</footer>

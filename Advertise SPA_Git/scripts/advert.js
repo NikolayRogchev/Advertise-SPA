@@ -42,7 +42,8 @@ function createAd() {
         datePublished: datePublished,
         publisher: sessionStorage.getItem('username'),
         price: price,
-        image: image
+        image: image,
+        views: 0
     };
     let url = baseUrl + 'appdata/' + appId + '/adverts/';
     headers['Authorization'] = 'Kinvey ' + sessionStorage.getItem('authToken');
@@ -96,12 +97,72 @@ function editAd(id) {
 }
 
 function detailsAd(id) {
-    alert('row clicked')
+    let url = baseUrl + 'appdata/' + appId + '/adverts/' + id;
+    let authToken = sessionStorage.getItem('authToken');
+    if (sessionStorage.getItem('masterSecret')){
+        headers['Authorization'] = 'Basic ' + btoa(appId + ':' + sessionStorage.getItem('masterSecret'));
+    } else {
+        headers['Authorization'] = 'Kinvey ' + authToken;
+    }
+    let getAd = new Promise(function (resolve, reject) {
+        $.ajax({
+            method: 'GET',
+            url: url,
+            headers: headers,
+            success: resolve,
+            error: reject
+        })
+    });
+    getAd.then(function (ad) {
+        let views = ad.views + 1;
+        let userData = {
+            title: ad.title,
+            publisher: ad.publisher,
+            description: ad.description,
+            price: ad.price,
+            datePublished: ad.datePublished,
+            image: ad.image,
+            views: views
+        };
+        let updateViews = new Promise(function (resolve, reject) {
+            $.ajax({
+                method: 'PUT',
+                url: url,
+                data: JSON.stringify(userData),
+                headers: headers,
+                success: function (data) {
+                    // console.dir(data);
+                },
+                error: function (err) {
+                    // console.dir(err)
+                }
+            })
+        });
+        $('#viewDetailsAd img').remove();
+        $('#viewDetailsAd h3 i').text(ad.title);
+        $('#container-details').empty();
+        $('#container-details').append(`<div class="image-details"><img src=${ad.image} class='image-details' alt="Image not found!"></div>`);
+        $('#container-details').append('<div class="details"><ul></ul></div>');
+          $('.details ul').append(`<li>Publisher: <i>${ad.publisher}</i></li>`);
+          $('.details ul').append(`<li>Description: ${ad.description}</li>`);
+          $('.details ul').append(`<li>Price: <b>${ad.price}$</b></li>`);
+          $('.details ul').append(`<li>Date published: ${ad.datePublished}$</li>`);
+          $('.details ul').append(`<li>Views: <b>${ad.views}</b></li>`);
+        redirect('#viewDetailsAd');
+    });
+    getAd.catch(function (err) {
+        showError(err);
+    })
 }
 
 function deleteAd(id) {
     let url = baseUrl + 'appdata/' + appId + '/adverts/' + id;
-    headers['Authorization'] = 'Kinvey ' + sessionStorage.getItem('authToken');
+    if(sessionStorage.getItem('masterSecret')){
+        headers['Authorization'] = 'Basic ' + btoa(appId + ':' + sessionStorage.getItem('masterSecret'));
+    } else {
+        headers['Authorization'] = 'Kinvey ' + sessionStorage.getItem('authToken');
+    }
+    console.dir(headers)
     $.ajax({
         method: 'DELETE',
         url: url,
@@ -119,7 +180,7 @@ function deleteAd(id) {
 function displayAdverts(ads) {
     let table = $('#ads table');
     $('#ads table tr').slice(1).remove(); // Skips the row with the headers and removes the other children
-    console.dir(ads)
+    //console.dir(ads)
     for (let ad of ads) {
         let row = $('<tr>');
         row.append($(`<td>${ad.title}</td>`));
@@ -129,7 +190,8 @@ function displayAdverts(ads) {
         row.append($(`<td>${ad.datePublished}</td>`));
         let deleteLink = '';
         let editLink = '';
-        if (sessionStorage.getItem('userId') == ad._acl.creator) {
+        if (sessionStorage.getItem('userId') == ad._acl.creator
+        || sessionStorage.getItem('masterSecret')) {
             deleteLink = $('<a href="#">[Delete]</a>');
             deleteLink.click(function () {
                 deleteAd(ad._id);
@@ -140,7 +202,7 @@ function displayAdverts(ads) {
             });
         }
         /* Attaches click event on the whole row except the last cell */
-        row.children().slice(row.length - 2).click(function () {
+        row.children().click(function () {
             detailsAd(ad._id);
         });
 

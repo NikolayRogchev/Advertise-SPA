@@ -51,7 +51,7 @@ function loginUser() {
 
     loginReq.then(function (data) {
         if(data.username == 'admin'){
-            sessionStorage.setItem('role', 'admin');
+            sessionStorage.setItem('masterSecret', '021cd8c39a0e406391e530f4d430dc40');
         }
         sessionStorage.setItem('username', data.username);
         sessionStorage.setItem('authToken', data._kmd.authtoken);

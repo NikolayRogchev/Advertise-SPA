@@ -3,7 +3,7 @@ function showInfo(msg) {
     $('#infoBox').show();
     setTimeout(function () {
         $('#infoBox').fadeOut();
-    }, 3000);
+    }, 750);
 }
 
 function showError(response) {

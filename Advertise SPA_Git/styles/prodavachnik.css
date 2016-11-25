@@ -7,6 +7,7 @@ body{
     font-family: 'Open Sans', sans-serif;
     color: #333333;
     height: 100%;
+
 }
 
 .menu {
@@ -46,7 +47,9 @@ main > section {
     padding: 20px 5px;
 }
 
-
+main {
+    background-color: rgba(0, 255, 250, 0.18);
+}
 .title{
     text-align: center;
     font-size: 62px;
@@ -56,6 +59,10 @@ main > section {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 5px;
+}
+.body-text li{
+    text-align: center;
+    text-transform: none;
 }
 
 .titleForm{
@@ -168,8 +175,37 @@ footer {
 .imageSrc{
     width: 50%;
 }
-.image{
-    size: auto;
+
+img {
+    position:relative;
+    display: inline-block;
     margin: auto;
+    vertical-align: middle;
+}
+.image-details{
+    display: inline-block;
+    min-width: 100px;
+    min-height: 100px;
     width: 50%;
+    height: 100%;
+    vertical-align: middle;
+}
+.details {
+    display: inline-block;
+    margin:auto;
+    vertical-align: middle;
+}
+
+#container-details {
+
+    height: 100%;
+    vertical-align: middle;
+}
+
+#viewDetailsAd{
+    height: 100%;
+}
+
+.details ul li{
+    margin: 30px;
 }

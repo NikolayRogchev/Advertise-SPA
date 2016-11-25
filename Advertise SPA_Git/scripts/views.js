@@ -4,6 +4,9 @@ function redirect(target) {
     $(target).show();
     if (sessionStorage.getItem('username')) {
         $('#linkHome, #linkListAds, #linkCreateAd, #linkLogout').show();
+        if(sessionStorage.getItem('username') == 'admin'){
+            $('#admin').show();
+        }
     } else {
         $('#linkHome, #linkLogin, #linkRegister ').show();
     }
